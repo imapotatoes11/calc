@@ -1,19 +1,21 @@
 'use client';
 import Button from "@/components/Button";
 import {useEffect, useState} from "react";
+import ConfigButton from "@/components/ConfigButton";
+import TerminalIcon from '@mui/icons-material/Terminal';
 
 export default function Home() {
     const [result, setResult] = useState("0")
     const [ans, setAns]  = useState(0)
 
     const interpretInputFromButton = (value: string) => {
-        if (value === "AC" || value === "a" || value === "c" || value === "Enter") {
+        if (value === "AC" || value === "a" || value === "c") {
             setResult("0")
         } else if (value === "±") {
             setResult((parseFloat(result) * -1).toString())
         } else if (value === "^") {
             setResult((parseFloat(result) ** 2).toString())
-        } else if (value === "=") {
+        } else if (value === "=" || value === "Enter") {
             setAns(eval(result))
             setResult(eval(result).toString())
         } else {
@@ -33,15 +35,15 @@ export default function Home() {
 
                 const addClass = (button: HTMLButtonElement) => {
                     if (button.id === "=") {
-                        button.classList.add('bg-orange-500');
+                        button.classList.add('bg-orange-600');
                         setTimeout(() => {
-                            button.classList.remove('bg-orange-500');
-                        }, 200);
+                            button.classList.remove('bg-orange-600');
+                        }, 300);
                     } else {
-                        button.classList.add('bg-gray-400');
+                        button.classList.add('bg-gray-500');
                         setTimeout(() => {
-                            button.classList.remove('bg-gray-400');
-                        }, 200);
+                            button.classList.remove('bg-gray-500');
+                        }, 300);
                     }
                 }
                 switch (true) {
@@ -96,8 +98,12 @@ export default function Home() {
     };
 
     // TODO: do tmrw, add support for brackets
+    // TODO: add dark mode support + a button and cookies to save the setting
+    // additionally potentially consider tooltips for the bottom left button
+    // sometimes keypresses dont have the darken button effect
     return (
         <main className="bg-slate-50 flex flex-row align-center items-center h-screen justify-center">
+            <ConfigButton position="bottomleft" redirectURL="/console"><TerminalIcon></TerminalIcon></ConfigButton>
             <div className="bg-slate-700 flex flex-col gap-4 align-center content-center rounded-2xl shadow-2xl drop-shadow-2xl py-8 px-6 h-min">
                 <div style={{fontSize: `${getFontSize()}px`}}
                      className={`bg-slate-100 p-4 rounded-2xl shadow-lg shadow-gray-500 w-72 text-right font-medium mb-2 ${getTextWrap()}`}>
