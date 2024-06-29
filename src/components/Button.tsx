@@ -1,4 +1,5 @@
 import {MouseEventHandler} from "react";
+import styles from "@/styles/components/Button.module.css";
 
 interface ButtonProps {
     value: string;
@@ -20,10 +21,11 @@ const Button: React.FC<ButtonProps> = ({value, onClick, variant = 'default', dis
     }
     return (
         <button
-            className={`${variantStyle} p-4 rounded-2xl font-medium ${value === '0' ? 'w-32' : 'w-14'} shadow-lg shadow-gray-500`}
+            className={`${variantStyle} p-3 rounded-2xl font-medium ${value === '0' ? 'w-32' : 'w-14'} shadow-lg shadow-gray-500 text-lg`}
             onClick={onClick}
             disabled={disabled}
             style={{transition: ".15s ease-out"}}
+            id={value}
         >
             {value}
         </button>
