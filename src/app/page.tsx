@@ -97,10 +97,10 @@ export default function Home() {
         return result.length > 16 ? 'break-all' : 'break-normal';
     };
 
-    // TODO: do tmrw, add support for brackets
     // TODO: add dark mode support + a button and cookies to save the setting
     // additionally potentially consider tooltips for the bottom left button
     // sometimes keypresses dont have the darken button effect
+    // TODO: ^ is not power, its some bitwise operator, fix that
     return (
         <main className="bg-slate-50 flex flex-row align-center items-center h-screen justify-center">
             <ConfigButton position="bottomleft" redirectURL="/console"><TerminalIcon></TerminalIcon></ConfigButton>
