@@ -109,6 +109,7 @@ export default function Home() {
     // * add a error popup for console if expression is wrong (or just change box shadow to red for a few seconds)
     // * refine css
     // * improve tooltip for delete icon for console page
+    // * write the README, or at least remove the default one
     return (
         <main className="bg-slate-50 dark:bg-slate-900 flex flex-row align-center items-center h-screen justify-center" style={{transition: ".15s ease-out"}}>
             <ConfigButton position="bottomleft" redirectURL="/console"><TerminalIcon></TerminalIcon></ConfigButton>
