@@ -1,36 +1,7 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+A simple nextjs calculator app with two views: a regular calculator, and a console-style input with history
 
-## Getting Started
+Check it out [here](https://calc-imapotatoes11s-projects.vercel.app)
 
-First, run the development server:
+![img.png](https://cdn.discordapp.com/attachments/1235069148766408707/1257752476442955907/image.png?ex=66858cc6&is=66843b46&hm=560a733c287a88e40c537b33fb51a5b6cb6924ade4217d9005d44c9bb0727fec&)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![img.png](https://cdn.discordapp.com/attachments/1235069148766408707/1257752603622899812/image.png?ex=66858ce4&is=66843b64&hm=d46b9cc025591cc6e7fadab64c1d526e6930b0894e615cf739eed235ef319355&)

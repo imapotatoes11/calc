@@ -1,5 +1,4 @@
 import {MouseEventHandler} from "react";
-import styles from "@/styles/components/Button.module.css";
 
 interface ButtonProps {
     value: string;

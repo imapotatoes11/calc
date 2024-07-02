@@ -98,7 +98,6 @@ export default function Home() {
     };
 
     // todo:
-    // * additionally potentially consider tooltips for the bottom left button
     // * sometimes keypresses dont have the darken button effect
     // * ^ is not power, its some bitwise operator, fix that
     // * add cookies to console to save history
@@ -106,10 +105,7 @@ export default function Home() {
     // * add localstorage based settings like darkmode/lightmode, clear history on close, etc
     // * console: add a copy button for each expression (maybe two, copy answer and copy regular)
     // * \-> hotkey: press shift + copy button = copy full expression, no shift = copy answer
-    // * add a error popup for console if expression is wrong (or just change box shadow to red for a few seconds)
     // * refine css
-    // * improve tooltip for delete icon for console page
-    // * write the README, or at least remove the default one
     return (
         <main className="bg-slate-50 dark:bg-slate-900 flex flex-row align-center items-center h-screen justify-center" style={{transition: ".15s ease-out"}}>
             <ConfigButton position="bottomleft" redirectURL="/console"><TerminalIcon></TerminalIcon></ConfigButton>
