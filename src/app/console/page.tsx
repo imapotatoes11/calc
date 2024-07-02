@@ -8,6 +8,7 @@ import {useState} from "react";
 import Alert from '@mui/material/Alert';
 import ErrorIcon from '@mui/icons-material/Error';
 import CheckIcon from '@mui/icons-material/Check';
+import SettingsIcon from '@mui/icons-material/Settings';
 // @ts-ignore
 import Modal from "react-modal";
 
@@ -22,6 +23,7 @@ export default function Home() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [deleteAlertOpen, setDeleteAlertOpen] = useState(false);
     const [errorAlertOpen, setErrorAlertOpen] = useState(false);
+    const [settingsOpen, setSettingsOpen] = useState(false);
 
     const handleKeyPress = (event: { key: string; }) => {
         if (event.key === 'Enter') {
@@ -52,6 +54,13 @@ export default function Home() {
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
+
+    const handleSettingsOpen = () => {
+        setSettingsOpen(true);
+    };
+    const handleSettingsClose = () => {
+        setSettingsOpen(false);
+    };
     return (
         <main className="bg-slate-100 dark:bg-slate-900 flex flex-row align-center items-center h-screen justify-center transition-all">
             {deleteAlertOpen && (
@@ -77,6 +86,7 @@ export default function Home() {
                 </div>
             )}
             <ConfigButton position="bottomleft" redirectURL="/"><CalculateRoundedIcon></CalculateRoundedIcon></ConfigButton>
+            <ConfigButton position="topright" onClick={handleSettingsOpen}><SettingsIcon/></ConfigButton>
             <div className="bg-slate-50 dark:bg-slate-300 flex flex-col gap-4 align-center content-center rounded-2xl shadow-2xl drop-shadow-2xl py-8 px-6 h-min transition-all">
                 <div className="flex-col gap-4 flex justify-center">
                     <div className="w-96 flex justify-end flex-row gap-3 items-center">
@@ -117,6 +127,14 @@ export default function Home() {
                     )}
                 </div>
             </div>
+            <Modal
+                isOpen={settingsOpen}
+                onRequestClose={handleSettingsClose}
+                className="bg-white dark:bg-slate-300 p-6 rounded-md shadow-lg w-96 transition-all"
+                overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-all"
+            >
+                <h2 className="text-xl mb-4">Settings</h2>
+            </Modal>
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={handleCloseModal}
