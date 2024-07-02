@@ -97,14 +97,22 @@ export default function Home() {
         return result.length > 16 ? 'break-all' : 'break-normal';
     };
 
-    // TODO: add dark mode support + a button and cookies to save the setting
-    // additionally potentially consider tooltips for the bottom left button
-    // sometimes keypresses dont have the darken button effect
-    // TODO: ^ is not power, its some bitwise operator, fix that
+    // todo:
+    // * additionally potentially consider tooltips for the bottom left button
+    // * sometimes keypresses dont have the darken button effect
+    // * ^ is not power, its some bitwise operator, fix that
+    // * add cookies to console to save history
+    // * consider preventing user from entering javascript expressions (like alert())
+    // * add localstorage based settings like darkmode/lightmode, clear history on close, etc
+    // * console: add a copy button for each expression (maybe two, copy answer and copy regular)
+    // * \-> hotkey: press shift + copy button = copy full expression, no shift = copy answer
+    // * add a error popup for console if expression is wrong (or just change box shadow to red for a few seconds)
+    // * refine css
+    // * improve tooltip for delete icon for console page
     return (
-        <main className="bg-slate-50 flex flex-row align-center items-center h-screen justify-center">
+        <main className="bg-slate-50 dark:bg-slate-900 flex flex-row align-center items-center h-screen justify-center" style={{transition: ".15s ease-out"}}>
             <ConfigButton position="bottomleft" redirectURL="/console"><TerminalIcon></TerminalIcon></ConfigButton>
-            <div className="bg-slate-700 flex flex-col gap-4 align-center content-center rounded-2xl shadow-2xl drop-shadow-2xl py-8 px-6 h-min">
+            <div className="bg-slate-700 dark:bg-slate-200 flex flex-col gap-4 align-center content-center rounded-2xl shadow-2xl drop-shadow-2xl py-8 px-6 h-min" style={{transition: ".15s ease-out"}}>
                 <div style={{fontSize: `${getFontSize()}px`}}
                      className={`bg-slate-100 p-4 rounded-2xl shadow-lg shadow-gray-500 w-72 text-right font-medium mb-2 ${getTextWrap()}`}>
                     {result}

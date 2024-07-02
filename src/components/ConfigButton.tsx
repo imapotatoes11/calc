@@ -35,7 +35,7 @@ const ConfigButton: React.FC<ConfigButtonProps> = ({children, onClick, position 
     return (
         <button
             className={`${fvariant} ${styles.configbutton} ${styles[position]}`}
-            onClick={handleClick}
+            onClick={redirectURL === null ? onClick : handleClick}
             disabled={disabled}
         >
             {children}

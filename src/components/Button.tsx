@@ -21,7 +21,7 @@ const Button: React.FC<ButtonProps> = ({value, onClick, variant = 'default', dis
     }
     return (
         <button
-            className={`${variantStyle} p-3 rounded-2xl font-medium ${value === '0' ? 'w-32' : 'w-14'} shadow-lg shadow-gray-500 text-lg`}
+            className={`${variantStyle} focus:outline-none p-3 rounded-2xl font-medium ${value === '0' ? 'w-32' : 'w-14'} shadow-lg shadow-gray-500 text-lg`}
             onClick={onClick}
             disabled={disabled}
             style={{transition: ".15s ease-out"}}
