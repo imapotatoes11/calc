@@ -4,17 +4,25 @@ import CalculateRoundedIcon from '@mui/icons-material/CalculateRounded';
 import DeleteIcon from '@mui/icons-material/Delete'
 import Tooltip from '@mui/material/Tooltip/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import Alert from '@mui/material/Alert';
 import ErrorIcon from '@mui/icons-material/Error';
 import CheckIcon from '@mui/icons-material/Check';
 import SettingsIcon from '@mui/icons-material/Settings';
 // @ts-ignore
 import Modal from "react-modal";
+import { Switch } from '@nextui-org/switch';
 
 interface Expression {
     value: string;
     result: string;
+}
+interface Settings {
+    // precision
+    saveHistoryOnClose: boolean;
+}
+const defaultSettings: Settings = {
+    saveHistoryOnClose: true
 }
 
 export default function Home() {
@@ -24,6 +32,26 @@ export default function Home() {
     const [deleteAlertOpen, setDeleteAlertOpen] = useState(false);
     const [errorAlertOpen, setErrorAlertOpen] = useState(false);
     const [settingsOpen, setSettingsOpen] = useState(false);
+    const [settings, setSettings] = useState<Settings>(defaultSettings);
+    useEffect(() => {
+        const loadedSettings = localStorage.getItem('settings');
+        let loadedSettingsParsed = defaultSettings;
+
+        if (loadedSettings) {
+            loadedSettingsParsed = JSON.parse(loadedSettings);
+            setSettings(JSON.parse(loadedSettings));
+        } else {
+            localStorage.setItem('settings', JSON.stringify(defaultSettings));
+            setSettings(defaultSettings);
+        }
+
+        if (loadedSettingsParsed.saveHistoryOnClose) {
+            const loadedHistory = localStorage.getItem('history');
+            if (loadedHistory) {
+                setPastInputs(JSON.parse(loadedHistory));
+            }
+        }
+    }, []);
 
     const handleKeyPress = (event: { key: string; }) => {
         if (event.key === 'Enter') {
@@ -36,7 +64,12 @@ export default function Home() {
             const atanh = Math.atanh; const cbrt = Math.cbrt; const pow = Math.pow;
             console.log(inputValue)
             try {
-                setPastInputs([{value: inputValue, result: eval(inputValue).toString()}, ...pastInputs])
+                const newHistory = [{value: inputValue, result: eval(inputValue).toString()}, ...pastInputs];
+                setPastInputs(newHistory);
+
+                if (settings.saveHistoryOnClose) {
+                    localStorage.setItem('history', JSON.stringify(newHistory));
+                }
             } catch (e) {
                 setErrorAlertOpen(true);
                 setTimeout(() => {
@@ -134,6 +167,17 @@ export default function Home() {
                 overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-all"
             >
                 <h2 className="text-xl mb-4">Settings</h2>
+                <div className="flex justify-between items-center">
+                    <span>Save History on Close</span>
+                    <Switch size="sm" isSelected={settings.saveHistoryOnClose} onValueChange={(e) => {
+                        setSettings({...settings, saveHistoryOnClose: e})
+                        localStorage.setItem('settings', JSON.stringify({...settings, saveHistoryOnClose: e}));
+
+                        if (e && pastInputs) {
+                            localStorage.setItem('history', JSON.stringify(pastInputs));
+                        }
+                    }}></Switch>
+                </div>
             </Modal>
             <Modal
                 isOpen={isModalOpen}
