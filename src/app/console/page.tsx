@@ -1,28 +1,19 @@
 'use client';
-import ConfigButton from "@/components/ConfigButton";
-import CalculateRoundedIcon from '@mui/icons-material/CalculateRounded';
-import DeleteIcon from '@mui/icons-material/Delete'
-import Tooltip from '@mui/material/Tooltip/Tooltip';
-import IconButton from '@mui/material/IconButton';
-import {useState, useEffect, useRef} from "react";
-import Alert from '@mui/material/Alert';
-import ErrorIcon from '@mui/icons-material/Error';
-import CheckIcon from '@mui/icons-material/Check';
-import SettingsIcon from '@mui/icons-material/Settings';
+import { useState, useEffect, useRef } from "react";
+import { Tooltip, IconButton, Alert } from '@mui/material';
+import { CalculateRounded as CalculateRoundedIcon, Delete as DeleteIcon, Error as ErrorIcon, Check as CheckIcon, Settings as SettingsIcon } from '@mui/icons-material';
 // @ts-ignore
 import Modal from "react-modal";
 import { Switch } from '@nextui-org/switch';
+import ConfigButton from "@/components/ConfigButton";
 import ExpressionComponent from "@/components/ConsoleExpression";
 
 interface Expression {
     value: string;
     result: string;
-}
-interface Settings {
-    // precision
+} interface Settings {
     saveHistoryOnClose: boolean;
-}
-const defaultSettings: Settings = {
+} const defaultSettings: Settings = {
     saveHistoryOnClose: true
 }
 
@@ -34,14 +25,18 @@ export default function Home() {
     const [errorAlertOpen, setErrorAlertOpen] = useState(false);
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [settings, setSettings] = useState<Settings>(defaultSettings);
+
     useEffect(() => {
+        // load settings from localstorage
         const loadedSettings = localStorage.getItem('settings');
         let loadedSettingsParsed = defaultSettings;
 
         if (loadedSettings) {
+            // if localstorage settings exists, load it
             loadedSettingsParsed = JSON.parse(loadedSettings);
             setSettings(JSON.parse(loadedSettings));
         } else {
+            // if localstorage settings doesn't exist, add it and set it as the default settings
             localStorage.setItem('settings', JSON.stringify(defaultSettings));
             setSettings(defaultSettings);
         }
@@ -54,22 +49,26 @@ export default function Home() {
         }
     }, []);
 
+    // focus on input when page loads
+    useEffect(() => {
+        document.getElementById('main-input')?.focus();
+    }, []);
+
     const handleKeyPress = (event: { key: string; }) => {
         if (event.key === 'Enter') {
-            const pi = 3.14159265358979323846;
-            const e = 2.71828182845904523536;
+            // math constants
+            const pi = 3.14159265358979323846; const e = 2.71828182845904523536;
             const ln = Math.log; const log = Math.log10; const sqrt = Math.sqrt; const abs = Math.abs;
-            const sin = Math.sin; const cos = Math.cos; const tan = Math.tan;
-            const asin = Math.asin; const acos = Math.acos; const atan = Math.atan;
+            const sin = Math.sin; const cos = Math.cos; const tan = Math.tan; const asin = Math.asin; const acos = Math.acos; const atan = Math.atan;
             const cosh = Math.cosh; const tanh = Math.tanh; const asinh = Math.asinh; const acosh = Math.acosh;
-            const atanh = Math.atanh; const cbrt = Math.cbrt; const pow = Math.pow;
-            const deg = pi/180
-            console.log(inputValue)
+            const atanh = Math.atanh; const cbrt = Math.cbrt; const pow = Math.pow; const deg = pi/180; const rad = 180/pi;
             try {
+                // try to evaluate expression, if error, show error alert
                 const newHistory = [{value: inputValue, result: eval(inputValue.replace("^","**")).toString()}, ...pastInputs];
                 setPastInputs(newHistory);
 
                 if (settings.saveHistoryOnClose) {
+                    // if history is enabled, save history to localstorage
                     localStorage.setItem('history', JSON.stringify(newHistory));
                 }
             } catch (e) {
@@ -78,33 +77,29 @@ export default function Home() {
                     setErrorAlertOpen(false);
                 }, 3000);
             }
-            setInputValue('')
+            setInputValue('');
         }
     }
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
+    }; const handleCloseModal = () => {
         setIsModalOpen(false);
-    };
-
-    const handleSettingsOpen = () => {
+    }; const handleSettingsOpen = () => {
         setSettingsOpen(true);
-    };
-    const handleSettingsClose = () => {
+    }; const handleSettingsClose = () => {
         setSettingsOpen(false);
     };
+
     return (
         <main className="bg-slate-100 dark:bg-slate-900 flex flex-row align-center items-center h-screen justify-center transition-all">
             {deleteAlertOpen && (
                 <div style={{
                     position: 'fixed',
-                    bottom: '20px', // Adjust the distance from the bottom as needed
+                    bottom: '20px', // adjust the distance from the bottom as needed
                     left: '50%',
                     transform: 'translateX(-50%)',
-                    zIndex: 1000, // Ensure it's above other content
+                    zIndex: 1000, // ensure it's above other content
                 }}>
                     <Alert icon={<CheckIcon/>} severity="success">History Cleared</Alert>
                 </div>
@@ -112,10 +107,10 @@ export default function Home() {
             {errorAlertOpen && (
                 <div style={{
                     position: 'fixed',
-                    bottom: '20px', // Adjust the distance from the bottom as needed
+                    bottom: '20px',
                     left: '50%',
                     transform: 'translateX(-50%)',
-                    zIndex: 1000, // Ensure it's above other content
+                    zIndex: 1000,
                 }}>
                     <Alert icon={<ErrorIcon/>} severity="error">Syntax Error</Alert>
                 </div>
@@ -139,8 +134,8 @@ export default function Home() {
                             </Tooltip>
                         </div>
                         <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)}
-                               onKeyPress={handleKeyPress} placeholder="Enter an expression..."
-                               className="font-mono bg-slate-100 p-4 rounded-md shadow-md focus:shadow-gray-400 focus:outline-none w-96 text-right font-medium mb-2 break-all transition-all"/>
+                               onKeyPress={handleKeyPress} placeholder="Enter an expression..." id="main-input"
+                               className="font-mono bg-slate-100 p-4 rounded-md shadow-md focus:shadow-gray-400 focus:outline-none w-96 text-right font-medium mb-2 break-all transition-all dark:text-black"/>
                     </div>
                 </div>
                 <div className="absolute top-28">
@@ -149,7 +144,6 @@ export default function Home() {
                             <div>
                                 <div
                                     className="font-mono bg-slate-100 dark:bg-slate-400 p-4 rounded-md shadow-md focus:shadow-gray-400 focus:outline-none w-96 text-right font-medium mb-2 break-all transition-all flex justify-between">
-                                    {/*{expression.value} = {expression.result}*/}
                                     <DeleteIcon className="cursor-pointer opacity-0 hover:opacity-70 transition-all" onClick={() => {setPastInputs(pastInputs.filter((_, filterIndex) => filterIndex !== index));}}/>
                                     <ExpressionComponent expression={expression}/>
                                 </div>
@@ -169,14 +163,14 @@ export default function Home() {
             <Modal
                 isOpen={settingsOpen}
                 onRequestClose={handleSettingsClose}
-                className="bg-white dark:bg-slate-300 p-6 rounded-md shadow-lg w-96 transition-all"
+                className="bg-white dark:bg-slate-100 p-6 rounded-md shadow-lg w-96 transition-all dark:text-black"
                 overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-all"
             >
                 <h2 className="text-xl mb-4">Settings</h2>
                 <div className="flex justify-between items-center">
                     <span>Save History on Close</span>
                     <Switch size="sm" isSelected={settings.saveHistoryOnClose} onValueChange={(e) => {
-                        setSettings({...settings, saveHistoryOnClose: e})
+                        setSettings({...settings, saveHistoryOnClose: e});
                         localStorage.setItem('settings', JSON.stringify({...settings, saveHistoryOnClose: e}));
 
                         if (e && pastInputs) {
@@ -199,7 +193,6 @@ export default function Home() {
                     {pastInputs.map((expression, index) => (
                         <div key={index} className="w-full flex justify-end mb-2">
                             <div className="bg-slate-100 dark:bg-gray-200 p-4 rounded-md shadow-md focus:shadow-gray-400 focus:outline-none w-full text-right font-medium break-all flex justify-between">
-                                {/*{expression.value} = {expression.result}*/}
                                 <DeleteIcon className="cursor-pointer" onClick={() => {setPastInputs(pastInputs.filter((_, filterIndex) => filterIndex !== index));}}/>
                                 <ExpressionComponent expression={expression}/>
                             </div>
@@ -211,7 +204,7 @@ export default function Home() {
                         Close
                     </button>
                     <button onClick={() => {
-                        handleCloseModal()
+                        handleCloseModal();
                         setPastInputs([]);
                         setDeleteAlertOpen(true);
                         setTimeout(() => {

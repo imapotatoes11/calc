@@ -5,86 +5,53 @@ import ConfigButton from "@/components/ConfigButton";
 import TerminalIcon from '@mui/icons-material/Terminal';
 
 export default function Home() {
-    const [result, setResult] = useState("0")
-    const [ans, setAns]  = useState(0)
+    const [result, setResult] = useState("0");
+    const [ans, setAns]  = useState(0);
 
     const interpretInputFromButton = (value: string) => {
         if (value === "AC" || value === "a" || value === "c") {
-            setResult("0")
+            setResult("0");
         } else if (value === "±") {
-            setResult((parseFloat(result) * -1).toString())
+            setResult((parseFloat(result) * -1).toString());
         } else if (value === "^") {
-            setResult((parseFloat(result) ** 2).toString())
+            setResult((parseFloat(result) ** 2).toString());
         } else if (value === "=" || value === "Enter") {
-            setAns(eval(result))
-            setResult(eval(result).toString())
+            setAns(eval(result));
+            setResult(eval(result).toString());
         } else {
             if (result === "0") {
-                setResult(value)
+                setResult(value);
             } else {
-                setResult(result + value)
+                setResult(result + value);
             }
-        }
-    }
-    const addClass = (button: HTMLButtonElement) => {
-        if (button.id === "=") {
-            button.classList.add('bg-orange-600');
-            setTimeout(() => {
-                button.classList.remove('bg-orange-600');
-            }, 300);
-        } else {
-            button.classList.add('bg-gray-500');
-            setTimeout(() => {
-                button.classList.remove('bg-gray-500');
-            }, 300);
         }
     }
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            const regex = /^[0-9ac^/*+-=.]|(Enter)$/; // Add the keys you want to match here
+            const regex = /^[0-9ac^/*+-=.]|(Enter)$/; // add the keys you want to match here
             if (regex.test(event.key)) {
                 interpretInputFromButton(event.key);
-                switch (true) {
-                    case /[0-9]/.test(event.key):
-                        addClass(document.getElementById(event.key) as HTMLButtonElement);
-                        break;
-                    case /[acAC]|(Escape)|(Esc)|(esc)|(escape)/.test(event.key):
-                        addClass(document.getElementById('AC') as HTMLButtonElement);
-                        break;
-                    case /\^/.test(event.key):
-                        addClass(document.getElementById('^') as HTMLButtonElement);
-                        break;
-                    case /[/*+-]/.test(event.key):
-                        addClass(document.getElementById(event.key) as HTMLButtonElement);
-                        break;
-                    case /=|(Enter)/.test(event.key):
-                        addClass(document.getElementById('=') as HTMLButtonElement);
-                        break;
-                    case /[.]/.test(event.key):
-                        addClass(document.getElementById('.') as HTMLButtonElement);
-                        break;
-                }
             }
         }
-        window.addEventListener('keydown', handleKeyDown)
+        window.addEventListener('keydown', handleKeyDown);
 
         // apparently have to clean up event listener for when component unmounts
         return () => {
-            window.removeEventListener('keydown', handleKeyDown)
+            window.removeEventListener('keydown', handleKeyDown);
         }
     })
 
 
     const getFontSize = () => {
-        const baseFontSize = 30; // Base font size in pixels
-        const minFontSize = 10; // Minimum font size in pixels
-        const decrement = (baseFontSize - minFontSize) / 100; // Decrement per character
+        const baseFontSize = 30; // base font size in pixels
+        const minFontSize = 10; // minimum font size in pixels
+        const decrement = (baseFontSize - minFontSize) / 100; // decrement per character
 
-        // Calculate the font size based on the length of the result
+        // calculate the font size based on the length of the result
         let fontSize = baseFontSize - (result.length * decrement);
 
-        // Ensure the font size does not go below the minimum
+        // ensure the font size does not go below the minimum
         if (fontSize < minFontSize) {
             fontSize = minFontSize;
         }
@@ -96,13 +63,12 @@ export default function Home() {
         return result.length > 16 ? 'break-all' : 'break-normal';
     };
 
-    // TODO: hotkey: press shift + copy button = copy full expression, no shift = copy answer
     return (
         <main className="bg-slate-50 dark:bg-slate-900 flex flex-row align-center items-center h-screen justify-center" style={{transition: ".15s ease-out"}}>
             <ConfigButton position="bottomleft" redirectURL="/console"><TerminalIcon></TerminalIcon></ConfigButton>
             <div className="bg-slate-700 dark:bg-slate-200 flex flex-col gap-4 align-center content-center rounded-2xl shadow-2xl drop-shadow-2xl py-8 px-6 h-min" style={{transition: ".15s ease-out"}}>
                 <div style={{fontSize: `${getFontSize()}px`}}
-                     className={`bg-slate-100 p-4 rounded-2xl shadow-lg shadow-gray-500 w-72 text-right font-medium mb-2 ${getTextWrap()} dark:text-black`}>
+                     className={`bg-slate-100 p-4 rounded-xl shadow-lg shadow-gray-500 w-72 text-right font-medium mb-2 ${getTextWrap()} dark:text-black`}>
                     {result}
                 </div>
                 <div className="flex-row gap-4 flex justify-center">

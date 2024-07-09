@@ -1,7 +1,6 @@
 'use client';
 import React, {ReactNode, MouseEventHandler, useState, useEffect} from 'react';
 import styles from '@/styles/components/ConfigButton.module.css';
-import { useRouter } from 'next/router';
 
 interface ConfigButtonProps {
     children: ReactNode;
@@ -15,18 +14,11 @@ interface ConfigButtonProps {
 const ConfigButton: React.FC<ConfigButtonProps> = ({children, onClick, position = 'bottomleft', variant = 'default', disabled, redirectURL = null}) => {
     var fvariant = `rounded-lg bg-white shadow-lg dark:text-black`;
     if (variant === 'outline') {
-        fvariant = `rounded-lg border-2 border-blue-500 text-blue-600`
+        fvariant = `rounded-lg border-2 border-blue-500 text-blue-600`;
     } else if (variant === 'borderless') {
-        fvariant = `rounded-lg`
+        fvariant = `rounded-lg`;
     }
 
-    // const router = typeof window !== 'undefined' ? useRouter() : null;
-
-    // const handleClick = () => {
-    //     if (router && redirectURL) {
-    //         router.push(redirectURL);
-    //     }
-    // }
     const handleClick = () => {
         // @ts-ignore
         window.location.href = redirectURL;

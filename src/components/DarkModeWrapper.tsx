@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import ConstrastIcon from "@mui/icons-material/Contrast";
 import ConfigButton from "@/components/ConfigButton";
 

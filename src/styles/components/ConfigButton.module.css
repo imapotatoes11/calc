@@ -1,6 +1,5 @@
 .configbutton {
     padding: 10px;
-    /*border: none;*/
     cursor: pointer;
     transition: .25s ease-out;
 }
@@ -9,7 +8,6 @@
 }
 
 .variant-outline {
-    /*background-color: transparent;*/
     border: 1px solid #007bff;
     color: #007bff;
 }

@@ -5,13 +5,13 @@ import CheckIcon from "@mui/icons-material/Check";
 // @ts-ignore
 const ExpressionComponent = ({ expression }) => {
     const [isHovered, setIsHovered] = useState(false);
-    const expressionRef = useRef(null);
     const [clearAlertOpen, setClearAlertOpen] = useState(false);
+    const expressionRef = useRef(null);
 
     const copyToClipboard = () => {
         const text = `${expression.value} = ${expression.result}`;
         navigator.clipboard.writeText(text).then(() => {
-            // alert('Copied to clipboard');
+            // Show alert for 2s
             setClearAlertOpen(true);
             setTimeout(() => {
                 setClearAlertOpen(false);
@@ -29,15 +29,14 @@ const ExpressionComponent = ({ expression }) => {
             onMouseLeave={() => setIsHovered(false)}
             onClick={copyToClipboard}
         >
-            {/*{clearAlertOpen ? 'Copied Result' : (isHovered ? "Click to Copy" : `${expression.value} = ${expression.result}`)}*/}
             {isHovered ? "Click to Copy" : `${expression.value} = ${expression.result}`}
             {clearAlertOpen && (
                 <div style={{
                     position: 'fixed',
-                    bottom: '-25rem', // Adjust the distance from the bottom as needed
+                    bottom: '0rem', // adjust the distance from the bottom as needed // -25rem
                     left: '50%',
                     transform: 'translateX(-50%)',
-                    zIndex: 1000, // Ensure it's above other content
+                    zIndex: 1000, // ensure it's above other content
                 }}>
                     <Alert icon={<CheckIcon/>} severity="success">Copied Result</Alert>
                 </div>
