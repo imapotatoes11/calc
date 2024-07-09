@@ -4,7 +4,7 @@ import CalculateRoundedIcon from '@mui/icons-material/CalculateRounded';
 import DeleteIcon from '@mui/icons-material/Delete'
 import Tooltip from '@mui/material/Tooltip/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 import Alert from '@mui/material/Alert';
 import ErrorIcon from '@mui/icons-material/Error';
 import CheckIcon from '@mui/icons-material/Check';
@@ -12,6 +12,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 // @ts-ignore
 import Modal from "react-modal";
 import { Switch } from '@nextui-org/switch';
+import ExpressionComponent from "@/components/ConsoleExpression";
 
 interface Expression {
     value: string;
@@ -62,9 +63,10 @@ export default function Home() {
             const asin = Math.asin; const acos = Math.acos; const atan = Math.atan;
             const cosh = Math.cosh; const tanh = Math.tanh; const asinh = Math.asinh; const acosh = Math.acosh;
             const atanh = Math.atanh; const cbrt = Math.cbrt; const pow = Math.pow;
+            const deg = pi/180
             console.log(inputValue)
             try {
-                const newHistory = [{value: inputValue, result: eval(inputValue).toString()}, ...pastInputs];
+                const newHistory = [{value: inputValue, result: eval(inputValue.replace("^","**")).toString()}, ...pastInputs];
                 setPastInputs(newHistory);
 
                 if (settings.saveHistoryOnClose) {
@@ -144,9 +146,13 @@ export default function Home() {
                 <div className="absolute top-28">
                     {pastInputs.slice(0, 5).map((expression, index) => (
                         <div key={index} className="w-96 flex justify-end">
-                            <div
-                                className="font-mono bg-slate-100 dark:bg-slate-400 p-4 rounded-md shadow-md focus:shadow-gray-400 focus:outline-none w-96 text-right font-medium mb-2 break-all transition-all">
-                                {expression.value} = {expression.result}
+                            <div>
+                                <div
+                                    className="font-mono bg-slate-100 dark:bg-slate-400 p-4 rounded-md shadow-md focus:shadow-gray-400 focus:outline-none w-96 text-right font-medium mb-2 break-all transition-all flex justify-between">
+                                    {/*{expression.value} = {expression.result}*/}
+                                    <DeleteIcon className="cursor-pointer opacity-0 hover:opacity-70 transition-all" onClick={() => {setPastInputs(pastInputs.filter((_, filterIndex) => filterIndex !== index));}}/>
+                                    <ExpressionComponent expression={expression}/>
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -185,15 +191,17 @@ export default function Home() {
                 onAfterOpen={() => {
                     document.getElementById('modal-content')?.scrollTo(0, 0);
                 }}
-                className="bg-white dark:bg-slate-300 p-6 rounded-md shadow-lg w-96 transition-all"
+                className="bg-white dark:bg-slate-300 p-6 rounded-md shadow-lg w-96 transition-all dark:text-black"
                 overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center transition-all"
             >
                 <h2 className="text-xl mb-4">History</h2>
-                <div id="modal-content" style={{ maxHeight: '500px', overflowY: 'auto' }}>
+                <div id="modal-content" style={{ maxHeight: '500px', overflowY: 'auto' }} className="scrollbar-hide">
                     {pastInputs.map((expression, index) => (
                         <div key={index} className="w-full flex justify-end mb-2">
-                            <div className="font-mono bg-slate-100 dark:bg-gray-200 p-4 rounded-md shadow-md focus:shadow-gray-400 focus:outline-none w-full text-right font-medium break-all">
-                                {expression.value} = {expression.result}
+                            <div className="bg-slate-100 dark:bg-gray-200 p-4 rounded-md shadow-md focus:shadow-gray-400 focus:outline-none w-full text-right font-medium break-all flex justify-between">
+                                {/*{expression.value} = {expression.result}*/}
+                                <DeleteIcon className="cursor-pointer" onClick={() => {setPastInputs(pastInputs.filter((_, filterIndex) => filterIndex !== index));}}/>
+                                <ExpressionComponent expression={expression}/>
                             </div>
                         </div>
                     ))}
