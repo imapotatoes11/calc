@@ -124,6 +124,7 @@ export default function Home() {
                             <Tooltip title="Clear History" placement="top">
                                 <IconButton onClick={() => {
                                     setPastInputs([]);
+                                    localStorage.setItem('history', JSON.stringify([]));
                                     setDeleteAlertOpen(true);
                                     setTimeout(() => {
                                         setDeleteAlertOpen(false);
@@ -206,6 +207,7 @@ export default function Home() {
                     <button onClick={() => {
                         handleCloseModal();
                         setPastInputs([]);
+                        localStorage.setItem('history', JSON.stringify([]));
                         setDeleteAlertOpen(true);
                         setTimeout(() => {
                             setDeleteAlertOpen(false);
